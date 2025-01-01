@@ -1,0 +1,10 @@
+class Solution {
+public:
+    bool checkOverlap(int radius, int xCenter, int yCenter, int x1, int y1, int x2, int y2) {
+        int closest_x = xCenter>=x1&&xCenter<=x2?xCenter:abs(x1-xCenter)<abs(x2-xCenter)?x1:x2;
+        int closest_y = yCenter>=y1&&yCenter<=y2?yCenter:abs(y1-yCenter)<abs(y2-yCenter)?y1:y2;
+        //cout << closest_x << " " << closest_y << endl;
+        double dist = pow(pow(xCenter-closest_x,2)+pow(yCenter-closest_y,2),0.5);
+        return dist<=radius?true:false;
+    }
+};
