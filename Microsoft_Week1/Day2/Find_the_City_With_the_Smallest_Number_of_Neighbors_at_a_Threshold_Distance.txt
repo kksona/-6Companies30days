@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        vector<vector<int>> adj(n, vector<int>(n, INT_MAX));
+        for(auto edge : edges){
+            int u = edge[0];
+            int v = edge[1];
+            int w = edge[2];
+            adj[u][v]=w;
+            adj[v][u]=w;
+        }
+
+        for(int k = 0; k < n; k++){
+            for(int u = 0; u < n; u++){
+                for(int v = 0; v < n; v++){
+                    if(u==v) adj[u][v]=0;
+                    if(u!=v&&adj[u][k]!=INT_MAX&&adj[k][v]!=INT_MAX){
+                        if(adj[u][k]+adj[k][v]<=adj[u][v]){
+                            adj[u][v]=adj[u][k]+adj[k][v];
+                        }
+                    }
+                }
+            }
+        }
+
+        int ans = -1,mini=INT_MAX;
+        for(int i = 0; i < n; i++){
+            int node = i,cnt=0;
+            for(int adj_node = 0; adj_node < n; adj_node++){
+                if(node!=adj_node&&adj[node][adj_node]<=distanceThreshold){
+                    cnt++;
+                }
+            }
+            if(cnt <= mini){
+                ans=node;
+                mini=cnt;
+            }
+        }
+        return ans;
+    }
+};

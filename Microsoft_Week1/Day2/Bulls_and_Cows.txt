@@ -1,0 +1,31 @@
+class Solution {
+public:
+    string getHint(string secret, string guess) {
+        unordered_map<char, int> umap;
+        int n = secret.size();
+        for(char ch : secret) umap[ch]++;
+        int bulls=0, cows=0;
+        for(int i = 0; i < n; i++){
+            if(secret[i]==guess[i]){
+                bulls++;
+                umap[secret[i]]--;
+                if(umap[guess[i]]==0)umap.erase(guess[i]);
+            }
+        }
+        for(int i = 0; i < n; i++){
+            if(secret[i]!=guess[i]){
+                if(umap.find(guess[i])!=umap.end()){
+                    cows++;
+                    umap[guess[i]]--;
+                    if(umap[guess[i]]==0)umap.erase(guess[i]);
+                }
+            }
+        }
+        string ans = "";
+        ans += to_string(bulls);
+        ans += 'A';
+        ans += to_string(cows);
+        ans += 'B';
+        return ans;
+    }
+};
