@@ -1,0 +1,37 @@
+class Solution {
+    private:
+    bool isValid(int row, int col, int R, int C){
+        if(row<R&&col<C&&row>=0&&col>=0){
+            return true;
+        }
+        return false;
+    }
+    int calc(vector<vector<int>>& img, int row, int col){
+        int R = img.size();
+        int C = img[0].size();
+        int dx[] = {0,0,1,-1,1,1,-1,-1};
+        int dy[] = {1,-1,0,0, 1,-1,1,-1};
+        int sum = img[row][col], cnt=1;
+        for(int i = 0; i < 8; i++){
+            int new_r = row + dx[i];
+            int new_c = col + dy[i];
+            if(isValid(new_r, new_c, R, C)){
+                sum += img[new_r][new_c];
+                cnt++;
+            }
+        }
+        //cout << row << col << " " << sum << " " << cnt << endl;
+        return sum/cnt;
+    }
+public:
+    vector<vector<int>> imageSmoother(vector<vector<int>>& img) {
+        int R = img.size(), C = img[0].size();
+        vector<vector<int>> ans(R, vector<int>(C, 0));
+        for(int i = 0; i < R; i++){
+            for(int j = 0; j < C; j++){
+                ans[i][j]=calc(img, i,j);
+            }
+        }
+        return ans;
+    }
+};

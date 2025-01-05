@@ -1,0 +1,35 @@
+class Solution {
+    private:
+    bool check_increasing(vector<int>& nums, int left, int right){
+        for(int i = left+1; i < right; i++){
+            if(nums[i]<=nums[i-1])return false;
+        }
+        return true;
+    }
+    bool check_incremovable(vector<int>& nums, int left, int right){
+        bool left_flag = check_increasing(nums, 0, left);//[0,left)
+        bool right_flag = check_increasing(nums, right+1, nums.size());//[right+1, n)
+        if(left_flag&&right_flag){
+            int left_max = left==0?INT_MIN:nums[left-1];
+            int right_min = right==nums.size()-1?INT_MAX:nums[right+1];
+            if(left_max < right_min){
+                return true;
+            }
+        }
+        return false;
+    }
+public:
+    int incremovableSubarrayCount(vector<int>& nums) {
+        int n = nums.size();
+        int ans=0;
+        for(int i = 0; i < n; i++){
+            for(int j = i; j < n; j++){
+                if(check_incremovable(nums, i, j)){
+                    //cout << i << " " << j << endl;
+                    ans ++;
+                }
+            }
+        }
+        return ans;
+    }
+};

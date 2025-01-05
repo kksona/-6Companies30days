@@ -1,0 +1,41 @@
+class Solution {
+    private:
+    int ans = 0;
+    bool isPalin(string& s){
+        int i = 0;
+        int j = s.length() - 1;
+ 
+        while (i < j) {
+            if (s[i] != s[j]) return false;
+            i++;
+            j--;
+        }
+ 
+        return true;
+    }
+
+    void dfs(string s, int idx, string s1, string s2){
+        if(idx>=s.size()){
+            if(isPalin(s1)&&isPalin(s2)){
+                ans=max(ans, (int)s1.size()*(int)s2.size());
+            }
+            return;
+        }
+
+        s1+=s[idx];
+        dfs(s, idx+1, s1, s2);
+        s1.pop_back();
+
+        s2+=s[idx];
+        dfs(s, idx+1, s1, s2);
+        s2.pop_back();
+
+        dfs(s, idx+1, s1, s2);
+    }
+public:
+    int maxProduct(string s) {
+        string s1 = "", s2="";
+        dfs(s, 0, s1, s2);
+        return ans;
+    }
+};
