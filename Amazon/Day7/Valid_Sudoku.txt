@@ -1,0 +1,65 @@
+class Solution {
+    bool rowCheck(vector<char> row){
+        unordered_set<int> uset;
+        for(char ch : row){
+            if(ch=='.')continue;
+            int num = ch-'0';
+            if(uset.find(num)!=uset.end())return false;
+            uset.insert(num);
+        }
+        return true;
+    }
+    bool colCheck(vector<vector<char>>& board, int col){
+        unordered_set<int> uset;
+        for(int i = 0; i < 9; i++){
+            if(board[i][col]=='.')continue;
+            int num = board[i][col];
+            if(uset.find(num)!=uset.end())return false;
+            uset.insert(num);
+        }
+        return true;
+    }
+    bool boxCheck(vector<vector<char>>& board){
+        for(int i = 0; i < 3; i++){
+            int rStart = 3*i;
+            for(int j = 0; j < 3; j++){
+                int cStart = 3*j;
+                unordered_set<char> uset;
+                for(int p = rStart; p < rStart+3; p++){
+                    
+                    for(int q = cStart; q < cStart+3; q++){
+                        if(board[p][q] == '.') continue;
+                        if(uset.count(board[p][q])){
+                            return false;
+                        }
+                        uset.insert(board[p][q]);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        bool flag=true;
+        //every row
+        for(int i = 0; i < 9; i++){
+            flag = rowCheck(board[i]);
+            if(!flag) {
+                cout << "row" << endl;
+                return false;
+            }
+        }
+        //every col
+        for(int j = 0; j < 9; j++){
+            flag = colCheck(board, j);
+            if(!flag) {
+                cout << "col" << endl;
+                return false;
+            }
+        }
+        //boxCheck
+        cout << "box" << endl;
+        return boxCheck(board);
+    }
+};
