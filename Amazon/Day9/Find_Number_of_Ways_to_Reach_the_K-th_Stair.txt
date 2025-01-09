@@ -1,0 +1,32 @@
+#define ll long long
+
+ll dp[50][50][2];
+
+ll find(int step, int goBack, int jump, int back, vector<ll>&exp, int k){
+    if(step>k+1) return 0;
+    if(dp[jump][back][goBack]!=-1) return dp[jump][back][goBack];
+    ll ans=0;
+    if(step==k)ans++;
+    if(goBack){
+        ans += find(step-1, 0, jump, back+1, exp,k);
+        ans+=find(step+exp[jump], 1, jump+1,back,exp,k);
+    }else{
+        ans+=find(step+exp[jump], 1, jump+1,back,exp,k);
+    }
+    return dp[jump][back][goBack]=ans;
+}
+
+class Solution {
+public:
+    int waysToReachStair(int k) {
+        memset(dp, -1, sizeof(dp));
+        vector<ll> exp(33,0);
+        
+        for(int i=0; i<33; ++i) 
+            exp[i] = pow(2, i);
+        
+        ll ans = find(1, 1, 0, 0, exp, k);  
+            
+        return ans;
+    }
+};

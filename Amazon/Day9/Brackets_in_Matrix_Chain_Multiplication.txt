@@ -1,0 +1,41 @@
+class Solution {
+    private:
+    int dfs(int i, int j, vector<int>& arr, vector<vector<int>>& memo,vector<vector<int>>&val){
+        if(i>=j) return 0;
+        if(memo[i][j]!=-1) return memo[i][j];
+        int mini = INT_MAX;
+        for(int k = i; k < j; k++){
+            int temp = dfs(i, k, arr, memo,val)+dfs(k+1,j,arr,memo,val)+arr[i-1]*arr[k]*arr[j];
+            if(temp < mini){
+                mini = temp;
+                val[i][j]=k;
+            }
+        }
+        return memo[i][j]=mini;
+    }
+    
+    void getString(int i, int j, string& ans, vector<vector<int>> val){
+        if(i>j) return;
+        if(i==j){
+            ans.push_back('A'+i-1);
+            return;
+        }
+        ans.push_back('(');
+        getString(i, val[i][j], ans,val);
+        getString(val[i][j]+1, j, ans, val);
+        ans.push_back(')');
+        return;
+    }
+    
+  public:
+    string matrixChainOrder(vector<int> &arr) {
+        // code here
+        int n = arr.size();
+        vector<vector<int>> memo(n, vector<int>(n, -1));
+        vector<vector<int>> val(n, vector<int>(n,-1));
+        dfs(1,n-1,arr,memo,val);
+        string ans="";
+        getString(1,n-1,ans,val);
+        return ans;
+    }
+};
