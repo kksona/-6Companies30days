@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        unordered_map<char, pair<int,int>>umap;
+        for(int i = 0; i < s.size(); i++){
+            char ch = s[i];
+            umap[ch].first++;
+            umap[ch].second=i;
+        }
+        int ans=s.size();
+        for(const auto&[ch, p]: umap){
+            if(p.first==1)ans=min(ans,p.second);
+        }
+        return ans==s.size()?-1:ans;
+    }
+};
