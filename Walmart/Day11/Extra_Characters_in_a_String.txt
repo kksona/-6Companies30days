@@ -1,0 +1,27 @@
+class Solution {
+    private:
+    unordered_set<string> uset;
+    unordered_map<int,int> umap;
+    
+    int dfs(string s, int idx){
+        if(idx>=s.size()) return 0;
+        if(umap.find(idx)!=umap.end())return umap[idx];
+        int n = s.size();
+        string temp = "";
+        int extra = INT_MAX;
+        for(int i = idx; i < n; i++){
+            temp += s[i];
+            if(uset.count(temp)){
+                extra = min(extra, dfs(s, i+1));
+            }
+        }
+        extra = min(extra, 1+dfs(s,idx+1));
+        return umap[idx]=extra;
+    }
+
+public:
+    int minExtraChar(string s, vector<string>& dictionary) {
+        for(string word : dictionary)uset.insert(word);
+        return dfs(s, 0);
+    }
+};

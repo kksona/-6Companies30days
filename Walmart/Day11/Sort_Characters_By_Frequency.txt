@@ -1,0 +1,18 @@
+class Solution {
+public:
+    string frequencySort(string s) {
+        unordered_map<char,int>umap;
+        vector<string> bucket(s.size()+1,"");
+        for(char ch : s) umap[ch]++;
+        for(auto& i : umap){
+            int num=i.second;
+            char ch =i.first;
+            bucket[num].append(num,ch);
+        }
+        string ans="";
+        for(int i = bucket.size()-1;i>0;i--){
+            if(bucket[i].size()!=0) ans+=bucket[i];
+        }
+        return ans;
+    }
+};
