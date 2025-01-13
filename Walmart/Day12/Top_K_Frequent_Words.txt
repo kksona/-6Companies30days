@@ -1,0 +1,29 @@
+#define psi pair<int, string>
+class Compare {
+    public:
+    bool operator() (const psi &p1, const psi &p2) {
+      if(p1.first == p2.first) return p1.second < p2.second;
+      
+      return p1.first > p2.first;
+    }
+};
+
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        unordered_map<string,int> umap;
+        for(string word:words) umap[word]++;
+        priority_queue<psi, vector<psi>, Compare> pq;
+        for(auto& it:umap){
+            pq.push({it.second,it.first});
+            if(pq.size()>k)pq.pop();
+        }
+        vector<string> ans(k);
+        int m=k-1;
+        while(pq.size() > 0) {
+            ans[m--] = pq.top().second;
+            pq.pop();
+        }
+        return ans;
+    }
+};

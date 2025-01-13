@@ -1,0 +1,21 @@
+class Solution {
+    private:
+    bool request(int a, int b) {
+        return !(b <= 0.5 * a + 7 || b > a || (b > 100 && a < 100));
+    }
+public:
+    int numFriendRequests(vector<int>& ages) {
+        unordered_map<int,int> umap;
+        int cnt=0;
+        for(int age:ages)umap[age]++;
+        for(auto& x : umap){
+            for(auto& y : umap){
+                if(request(x.first,y.first)){
+                    if(x.first!=y.first)cnt+=x.second*y.second;
+                    else cnt+=x.second*(y.second-1);
+                }
+            }
+        }
+        return cnt;
+    }
+};
