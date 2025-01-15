@@ -1,0 +1,20 @@
+class Solution {
+    private:
+
+    bool dfs(string s, vector<string>&words, int idx, vector<int>&memo){
+        if(idx==s.size())return true;
+        if(memo[idx]!=-1)return memo[idx];
+        bool flag=false;
+        for(auto& word : words){
+            if(s.substr(idx,word.size())==word){
+                flag|=dfs(s, words, idx+word.size(),memo);
+            }
+        }
+        return memo[idx]=flag;
+    }
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        vector<int> memo(s.size(), -1);
+        return dfs(s, wordDict,0, memo);
+    }
+};
