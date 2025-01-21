@@ -1,0 +1,30 @@
+class Solution {
+public:
+    static bool cmp(vector<int> a, vector<int> b){
+        if(a[0]==b[0])return a[1]>b[1];
+        return a[0]<b[0];
+    }
+
+    int LIS(vector<int>& nums){
+        if(nums.size()==0)return 1;
+        vector<int> ans;
+        for(int num : nums){
+            if(ans.empty()||ans.back()<num){
+                ans.push_back(num);
+            }else{
+                int idx = lower_bound(ans.begin(),ans.end(),num)-ans.begin();
+                ans[idx]=num;
+            }
+        }
+        return ans.size();
+    }
+
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        sort(envelopes.begin(), envelopes.end(), cmp);
+        vector<int> nums;
+        for(auto p : envelopes){
+            nums.push_back(p[1]);
+        }
+        return LIS(nums);
+    }
+};

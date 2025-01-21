@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int stoneGameVI(vector<int>& aliceValues, vector<int>& bobValues) {
+        int n = aliceValues.size();
+        vector<pair<int,int>> combined;
+        for(int i = 0; i < n; i++){
+            combined.push_back({aliceValues[i]+bobValues[i],i});
+        }
+        sort(combined.rbegin(),combined.rend());
+        int suma=0,sumb=0;
+        for(int i = 0; i < n; i++){
+            if(i%2==0) suma+=aliceValues[combined[i].second];
+            else sumb+=bobValues[combined[i].second];
+        }
+        if(suma==sumb)return 0;
+        if(suma>sumb)return 1;
+        return -1;
+    }
+};
