@@ -1,0 +1,40 @@
+struct TrieNode {
+    TrieNode* children[26];
+    bool isEnd=false;
+};
+
+class WordDictionary {
+    private:
+    TrieNode* root;
+    bool dfs(string& word, int idx, TrieNode* curr){
+        if(idx==word.size()) return curr->isEnd;
+        //we are searching for word[idx] char in thr curr TrieNode
+        bool flag=false;
+        if(word[idx]!='.'){
+            if(!curr->children[word[idx]-'a'])return false;
+            return dfs(word,idx+1,curr->children[word[idx]-'a']);
+        }else{
+            for(const auto& nextCharNode : curr->children){
+                if(nextCharNode) flag = flag || dfs(word, idx+1, nextCharNode);
+            }
+        }
+        return flag;
+    }
+public:
+    WordDictionary() {
+        root = new TrieNode();
+    }
+    
+    void addWord(string word) {
+        TrieNode* node = root;
+        for(char ch : word){
+            if(!node->children[ch-'a'])node->children[ch-'a']=new TrieNode();
+            node = node -> children[ch-'a'];
+        }
+        node -> isEnd=true;
+    }
+    
+    bool search(string word) {
+        return dfs(word, 0, root);
+    }
+};
