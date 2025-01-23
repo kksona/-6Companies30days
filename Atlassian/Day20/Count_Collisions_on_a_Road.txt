@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int countCollisions(string dirs) {
+        stack<char> st;
+        int cnt=0;
+        for(char ch : dirs){
+            if(st.empty())st.push(ch);
+            else{
+                if(ch=='L'){
+                    if(st.top()=='R'){
+                        int temp=1;
+                        while(!st.empty()&&st.top()=='R'){
+                            temp++;
+                            st.pop();
+                        }
+                        cnt+=temp;
+                        st.push('S');
+                    }
+                    else if(st.top()=='S'){
+                        cnt++;
+                        st.push('S');
+                    }else{
+                        st.push(ch);
+                    }
+                }else if(ch=='R'){
+                    st.push(ch);
+                }else{
+                    int temp=0;
+                    while(!st.empty()&&st.top()=='R'){
+                        temp++;
+                        st.pop();
+                    }
+                    cnt+=temp;
+                    st.push(ch);
+                }
+            }
+        }
+        return cnt;
+    }
+};

@@ -1,0 +1,46 @@
+class Node{
+    public:
+    string name="";
+    vector<Node*> children;
+    bool isDead=false;
+    Node(string PersonName){
+        name = PersonName;
+    }
+};
+
+
+
+class ThroneInheritance {
+    private:
+    unordered_map<string,Node*> umap;
+    Node* root;
+    void dfs(Node* root, vector<string>& ans){
+        if(!root->isDead) ans.push_back(root->name);
+        for(Node* child : root -> children){
+            dfs(child, ans);
+        }
+    }
+public:
+    ThroneInheritance(string kingName) {
+        root = new Node(kingName);
+        umap[kingName]= root;
+    }
+    
+    void birth(string parentName, string childName) {
+        Node* p = umap[parentName];
+        Node* newChild = new Node(childName);
+        umap[childName]=newChild;
+        p->children.push_back(newChild);
+    }
+    
+    void death(string name) {
+        Node* person = umap[name];
+        person -> isDead = true;
+    }
+    
+    vector<string> getInheritanceOrder() {
+        vector<string> ans;
+        dfs(root, ans);
+        return ans;
+    }
+};

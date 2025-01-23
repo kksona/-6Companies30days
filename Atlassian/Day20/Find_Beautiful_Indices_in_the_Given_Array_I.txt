@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> beautifulIndices(string s, string a, string b, int k) {
+        vector<int> ans;
+        if(s.size()<a.size()||s.size()<b.size()) return ans;
+        vector<int> indexb;
+        vector<int> indexa;
+        for(int i = 0; i <= s.size()-b.size(); i++){
+            if(s.substr(i, b.size())==b)indexb.push_back(i);
+        }
+        for(int i = 0; i <= s.size()-a.size(); i++){
+            if(s.substr(i, a.size())==a)indexa.push_back(i);
+        }
+        //for(int num : indexa) cout << num << ' ';
+        for(int i = 0; i < indexa.size(); i++){
+            for(int j = 0; j < indexb.size(); j++){
+                if(abs(indexa[i]-indexb[j])<=k){
+                    ans.push_back(indexa[i]);
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
+};
