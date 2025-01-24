@@ -1,0 +1,22 @@
+class Solution {
+    private:
+    bool helper(vector<int>& nums, int val, int d){
+        int low=0, high = nums.size()-1;
+        while(low<=high){
+            int mid = low + (high-low)/2;
+            if(abs(nums[mid]-val)<=d)return false;
+            if(nums[mid]> val)high=mid-1;
+            else low=mid+1;
+        }
+        return true;
+    }
+public:
+    int findTheDistanceValue(vector<int>& arr1, vector<int>& arr2, int d) {
+        int cnt=0;
+        sort(arr2.begin(), arr2.end());
+        for(int num : arr1){
+            if(helper(arr2, num, d))cnt++;
+        }
+        return cnt;
+    }
+};

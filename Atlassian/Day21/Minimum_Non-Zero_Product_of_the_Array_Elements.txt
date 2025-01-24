@@ -1,0 +1,18 @@
+class Solution {
+    private:
+    int modPow(long long x, long long y, int m){
+        if(y==0) return 1;
+        long long p = modPow(x,y/2,m);
+        p=(p*p)%m;
+        if(y%2){
+            return (p*(x%m))%m;
+        }
+        return p;
+    }
+public:
+    int minNonZeroProduct(int p) {
+        long long num = (1ll<<p)-1;
+        long long mod = 1000000007;
+        return (num%mod)*modPow(num-1,num/2,mod)%mod;
+    }
+};

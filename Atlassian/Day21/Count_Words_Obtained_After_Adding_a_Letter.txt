@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int wordCount(vector<string>& startWords, vector<string>& targetWords) {
+        unordered_set<string> uset;
+        for(string str : startWords){
+            sort(str.begin(),str.end());
+            uset.insert(str);
+        }
+        int cnt=0;
+        for(string word : targetWords){
+            sort(word.begin(),word.end());
+            for(int i = 0; i < word.size(); i++){
+                string sortedWord = word.substr(0,i)+word.substr(i+1);
+                if(uset.count(sortedWord)){
+                    cnt++;
+                    break;
+                }
+            }
+        }
+        return cnt;
+    }
+};
