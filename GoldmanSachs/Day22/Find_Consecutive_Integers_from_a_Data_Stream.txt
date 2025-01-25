@@ -1,0 +1,15 @@
+class DataStream {
+    private:
+    int val=0,kmax=0,valCount=0;
+public:
+    DataStream(int value, int k) {
+        val=value;
+        kmax=k;
+    }
+    
+    bool consec(int num) {
+        if(num==val)valCount++;
+        else valCount=0;
+        return valCount>=kmax;
+    }
+};
