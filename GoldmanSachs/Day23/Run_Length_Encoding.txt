@@ -1,0 +1,22 @@
+class Solution {
+  public:
+    string encode(string s) {
+        // code here
+        int n = s.size();
+        string temp="";
+        char prev=s[0];
+        int cnt=1;
+        for(int i = 1; i < n; i++){
+            if(s[i]==prev)cnt++;
+            else{
+                temp+=prev;
+                temp+=to_string(cnt);
+                prev=s[i];
+                cnt=1;
+            }
+        }
+        temp+=prev;
+        temp+=to_string(cnt);
+        return temp;
+    }
+};

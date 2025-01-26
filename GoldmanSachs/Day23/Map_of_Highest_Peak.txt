@@ -1,0 +1,44 @@
+class Solution {
+    private:
+    bool isValid(int row, int col, int R, int C){
+        if(row>=0&&col>=0&&row<R&&col<C)return true;
+        return false;
+    }
+public:
+    vector<vector<int>> highestPeak(vector<vector<int>>& isWater) {
+        int R = isWater.size(), C = isWater[0].size();
+        vector<vector<int>> ans(R, vector<int>(C, 0));
+        vector<vector<int>> vis(R, vector<int>(C, 0));
+        queue<pair<int,int>> q;
+        for(int i = 0; i < R; i++){
+            for(int j = 0; j < C; j++){
+                if(isWater[i][j]==1){
+                    ans[i][j]=0;
+                    vis[i][j]=1;
+                    q.push({i,j});
+                }
+            }
+        }
+        int dx[]={0,0,1,-1};
+        int dy[]={1,-1,0,0};
+        int h = 0;
+        while(!q.empty()){
+            int size=q.size();
+            while(size--){
+                auto [row,col]=q.front();
+                q.pop();
+                ans[row][col]=h;
+                for(int i = 0; i < 4; i++){
+                    int nr = row + dx[i];
+                    int nc = col + dy[i];
+                    if(isValid(nr,nc,R,C)&&!vis[nr][nc]){
+                        q.push({nr,nc});
+                        vis[nr][nc]=1;
+                    }
+                }
+            }
+            h++;
+        }
+        return ans;
+    }
+};

@@ -1,0 +1,49 @@
+class Solution {
+    private:
+    int convert(string time){
+        int hrs = stoi(time.substr(0,2));
+        int mins = stoi(time.substr(2));
+        return hrs*60+mins;
+    }
+public:
+
+    static bool cmp(vector<string>& a, vector<string>& b){
+        return a[1]<b[1];
+    }
+
+    bool check(vector<int> times){
+        int cnt=0;
+        int left=0, right=0;
+        while(right < times.size()){
+            while(left<right&&times[right]-times[left]>=60){
+                left++;
+            }
+            cnt=max(cnt,right-left+1);
+            right++;
+        }
+        return cnt>=3;
+    }
+
+    vector<string> findHighAccessEmployees(vector<vector<string>>& access_times) {
+        sort(access_times.begin(), access_times.end(), cmp);
+        vector<string> ans;
+        unordered_set<string> uset;
+        unordered_map<string, vector<int>>umap;
+        for(auto access : access_times){
+            string emp = access[0];
+            int time = convert(access[1]);
+            if(!umap.count(emp)){
+                umap[emp]={time};
+            }else{
+                umap[emp].push_back(time);
+            }
+        }
+        for(const auto&[emp,times]:umap){
+            if(check(times)){
+                ans.push_back(emp);
+            }
+        }
+        return ans;
+        
+    }
+};
