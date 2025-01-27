@@ -1,0 +1,40 @@
+class tup{
+    public:
+    bool bst;
+    int maxi;
+    int mini;
+    int maxi_sum;
+    tup(){
+        bst=true;
+        maxi=INT_MIN;
+        mini=INT_MAX;
+        maxi_sum=0;
+    }
+};
+
+class Solution {
+    private: int ans=0;
+    tup dfs(TreeNode* root){
+        if(!root) return tup();
+        tup t;
+        tup tl = dfs(root->left);
+        tup tr = dfs(root->right);
+
+        if(tl.bst&&tr.bst&&root->val>tl.maxi&&root->val<tr.mini){
+            t.bst=true;
+            t.maxi_sum = tl.maxi_sum + tr.maxi_sum + root->val;
+            t.mini = min(root->val, tl.mini);
+            t.maxi=max(root->val, tr.maxi);
+        }else{
+            t.bst=false;
+            t.maxi_sum=max(tl.maxi_sum,tr.maxi_sum);
+        }
+        ans=max(ans, t.maxi_sum);
+        return t;
+    }
+public:
+    int maxSumBST(TreeNode* root) {
+        dfs(root);
+        return ans;
+    }
+};

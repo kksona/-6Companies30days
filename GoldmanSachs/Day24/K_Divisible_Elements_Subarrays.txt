@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int countDistinct(vector<int>& nums, int d, int p) {
+        int n = nums.size();
+        set<vector<int>> uset;
+        int ans=0;
+        for(int i = 0; i < n; i++){
+            for(int j = i; j < n; j++){
+                int cnt = 0;
+                vector<int> temp;
+                for(int k = i; k <= j; k++){
+                    temp.push_back(nums[k]);
+                    if(nums[k]%p==0) cnt++;
+                }
+                if(cnt<=d&&!uset.count(temp)){
+                    ans++;
+                    uset.insert(temp);
+                }
+            }
+        }
+        return ans;
+    }
+};
